@@ -1,0 +1,7 @@
+{application, ghc_bome, [
+    {description, "GHC Bome service"},
+    {id, "ghc_bome"},
+    {vsn, "0.1.0"},
+    {modules, []},
+    {applications, [kernel, stdlib, ghc_bome_db, ghc_bome_rest]}
+]}.
