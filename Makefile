@@ -47,6 +47,9 @@ docker-build: all
 	install -p Dockerfile _buildimage
 	$(MAKE) install DESTDIR=_buildimage PREFIX=
 	docker build _buildimage -t $(USER)/$(PROJECT):$(VERSION)
+	$(MAKE) uninstall DESTDIR=_buildimage PREFIX=
+	rm -f _buildimage/Dockerfile
+	rmdir _buildimage
 
 docker-clean:
 	docker images -qf dangling=true | xargs docker rmi
