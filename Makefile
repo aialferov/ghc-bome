@@ -1,3 +1,4 @@
+USER = aialferov
 PROJECT = ghc-bome
 PORT = 8080
 
