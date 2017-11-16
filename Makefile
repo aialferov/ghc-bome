@@ -41,7 +41,7 @@ uninstall:
 	rm -f $(BINPATH)/$(PROJECT)
 	rmdir -p $(BINPATH) 2> /dev/null || true
 
-image-build: all
+docker-build: all
 	mkdir _buildimage
 	install -p Dockerfile _buildimage
 	$(MAKE) install DESTDIR=_buildimage PREFIX=
@@ -50,14 +50,14 @@ image-build: all
 	rm -f _buildimage/Dockerfile
 	rmdir _buildimage
 
-image-push: image-build
+docker-push: docker-build
 	docker push $(USER)/$(PROJECT)
 
-image-run: image-build
+docker-run: docker-build
 	docker run --name $(PROJECT) --rm -it -p $(PORT):$(PORT) $(USER)/$(PROJECT)
 
-image-start: image-build
+docker-start: docker-build
 	docker run --name $(PROJECT) --rm -d -p $(PORT):$(PORT) $(USER)/$(PROJECT)
 
-image-stop:
+docker-stop:
 	docker stop $(PROJECT) -t0
