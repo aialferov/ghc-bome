@@ -8,12 +8,16 @@ main(_) ->
     apply_config(Config),
 
     application:ensure_all_started(?MODULE),
-    console().
+    case console() of
+        ok -> ok;
+        eof -> receive ok -> ok end
+    end.
 
 console() ->
     io:format(?Greeting),
-    console_loop(),
-    io:format(?Farewell).
+    Console = console_loop(),
+    io:format(?Farewell),
+    Console.
 
 console_loop() ->
     Action = case read_input(?Prompt) of
@@ -26,7 +30,7 @@ console_loop() ->
         {action, example} -> io:format(?Example), console_loop();
         {action, exit} -> console_exit();
         false -> console_loop();
-        eof -> ok
+        eof -> eof
     end.
 
 console_action_fun(Command) -> fun
