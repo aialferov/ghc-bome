@@ -1,4 +1,3 @@
-USER = aialferov
 PROJECT = ghc-bome
 PORT = 8080
 
@@ -54,4 +53,10 @@ image-push: image-build
 	docker push $(USER)/$(PROJECT)
 
 image-run: image-build
-	docker run --rm -it -p $(PORT):$(PORT) $(USER)/$(PROJECT)
+	docker run --name $(PROJECT) --rm -it -p $(PORT):$(PORT) $(USER)/$(PROJECT)
+
+image-start: image-build
+	docker run --name $(PROJECT) --rm -d -p $(PORT):$(PORT) $(USER)/$(PROJECT)
+
+image-stop:
+	docker stop $(PROJECT) -t0
