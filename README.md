@@ -123,4 +123,5 @@ $ make docker-push  # to push the image you need to be docker logged in
 $ make docker-run   # run docker container with console attached
 $ make docker-start # run docker container in background
 $ make docker-stop  # stop docker container
+$ make docker-clean # remove dangling (<none>:<none>) images
 ```
