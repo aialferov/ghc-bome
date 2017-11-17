@@ -25,61 +25,47 @@ $ docker pull aialferov/ghc-bome
 
 ### Service console
 
-After you ran the srevice you get into the service console. There you can
+After you ran the service you get into the service console. There you can
 run commands to get some information about the service, for example about
 API it provides or the API usage example.
 
-The console is also used for log output.
-
 ### API
 
-The service provides HTTP REST API for storing, retrieving and deleting user
-data.
-
-Store data:
-```
-PUT /v1/<user> {"type":"value"}
-```
-
-Retrieve data:
-```
-GET /v1/<user>[/<type>]
-```
-
-If "type" is not specified the whole user data is retrieved.
-
-Delete data:
-```
-DELETE /v1/<user>[/<type>]
-```
-
-If "type" is not specified the whole user data gets deleted.
+Please refer the "API" section of
+[GHC Bome REST](http://github.com/aialferov/ghc_bome_rest) documentation.
 
 ### API usage example
 
-Store:
+Create:
 ```
-$ curl -XPUT localhost:8080/v1/john -d'{"weight":"70kg"}'
-$ curl -XPUT localhost:8080/v1/john -d'{"height":"180cm"}'
+$ curl -XPUT localhost:8080/v1/users/john \
+> -d'{"weight":"60kg","height":"170cm","eyes":"blue"}'
 ```
 
-Get:
+Overwrite:
 ```
-$ curl localhost:8080/v1/john/height
-{"height":"180cm"}
+$ curl -XPUT localhost:8080/v1/users/john \
+> -d'{"weight":"70kg","height":"170cm","eyes":"blue"}'
+```
+
+Update:
+```
+$ curl -XPATCH localhost:8080/v1/users/john -d'{"height":"180cm"}'
+```
+
+Read:
+```
 $ curl localhost:8080/v1/john
+{"eyes":"blue","height":"180cm","weight":"70kg"}
+
+$ curl localhost:8080/v1/john?filter=height,weight
 {"height":"180cm","weight":"70kg"}
 ```
 
 Delete:
 ```
-$ curl -XDELETE localhost:8080/v1/john/height
-$ curl localhost:8080/v1/john
-{"weight":"70kg"}
-
-$ curl -XDELETE localhost:8080/v1/john
-$ curl localhost:8080/v1/john
-{}
+$ curl -XDELETE localhost:8080/v1/john \
+> -d'["height","weight"]'
 ```
 
 ## Sources
@@ -87,15 +73,15 @@ $ curl localhost:8080/v1/john
 To build the service from sources you will need "git", "make" and
 [Erlang](https://www.erlang-solutions.com/resources/download.html).
 
-Download the sources and build the service binary:
+Download the sources and build the service executable:
 
 ```
 $ git clone git://github.com/aialferov/ghc-bome && cd ghc-bome
 $ make
 ```
 
-Once the binary is built it is located in "_build/default/bin" and could be run
-immediately:
+Once the executable is built it is located in "_build/default/bin" and could
+be run immediately:
 
 ```
 $ _build/default/bin/ghc-bome
@@ -107,9 +93,9 @@ there.
 There are more "make" targets provided for convenience:
 
 ```
-$ make run       # build and run built service
-$ make install   # install service into a system
-$ make uninstall # uninstall service
+$ make run       # build and run built service executable
+$ make install   # install service executable into the system
+$ make uninstall # uninstall service executable
 ```
 
 ### Docker image
@@ -118,10 +104,10 @@ Makefile also provides targets to build, push and run service based docker
 image. 
 
 ```
-$ make docker-build # build docker image
-$ make docker-push  # to push the image you need to be docker logged in
-$ make docker-run   # run docker container with console attached
-$ make docker-start # run docker container in background
-$ make docker-stop  # stop docker container
+$ make docker-build # build image
+$ make docker-push  # push image (you need to be logged in, see "docker login")
+$ make docker-run   # run container with console attached
+$ make docker-start # run container in background
+$ make docker-stop  # stop container
 $ make docker-clean # remove dangling (<none>:<none>) images
 ```
