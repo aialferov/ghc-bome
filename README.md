@@ -110,3 +110,9 @@ $ make docker-start # run container in background
 $ make docker-stop  # stop container
 $ make docker-clean # remove dangling (<none>:<none>) images
 ```
+
+## Tests
+
+There are bunch of tests provided for testing the API. Please refer
+[GHC Bome Acceptance Tests](http://github.com/aialferov/ghc-bome-ac) for more
+details.
