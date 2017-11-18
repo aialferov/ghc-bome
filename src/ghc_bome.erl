@@ -4,6 +4,9 @@
 -include("ghc_bome.hrl").
 -include_lib("ghc_bome_rest/include/ghc_bome_rest.hrl").
 
+-define(AppRest, ghc_bome_rest).
+-define(AppDb, ghc_bome_db).
+
 main(_) ->
     {ok, Config} = load_config(),
     apply_config(Config),
@@ -27,6 +30,7 @@ console_loop() ->
     end,
     case Action of
         {action, help} -> io:format(?Help), console_loop();
+        {action, config} -> show_config(), console_loop();
         {action, api} -> io:format(?GhcBomeApiUsage), console_loop();
         {action, example} -> show_example(), console_loop();
         {action, exit} -> console_exit();
@@ -72,6 +76,14 @@ apply_config(Config) ->
             application:set_env(App, Par, Val, [{persistent, true}])
         end, AppConfig)
     end, Config).
+
+show_config() ->
+    {ok, Port} = application:get_env(?AppRest, port),
+    {ok, DbBackend} = application:get_env(?AppRest, db_module),
+    {ok, DbFile} = application:get_env(?AppDb, file_path),
+    {ok, DbSaveInterval} = application:get_env(?AppDb, save_interval),
+
+    io:format(?Config, [Port, DbFile, DbBackend, DbSaveInterval]).
 
 show_example() ->
     {ok, Port} = application:get_env(ghc_bome_rest, port),

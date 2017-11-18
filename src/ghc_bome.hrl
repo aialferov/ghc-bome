@@ -1,8 +1,15 @@
 -define(Help,
     "h|help         Print this message~n"
+    "c|config       Print running configuration~n"
     "a|api          Print REST API reference~n"
     "e|example      Print REST API usage example~n"
-    "q|quit|exit    Shutdown the service and exit console~n"
+    "q|quit|exit    Shutdown the service and exit the console~n"
+).
+-define(Config,
+    "Port: ~b~n"
+    "Database file: ~s~n"
+    "Database backend: ~p~n"
+    "Database save on disk interval: ~b ms.~n"
 ).
 -define(Example,
     "$ curl -XPUT localhost:$port/v1/users/john \~n"
@@ -37,6 +44,7 @@
 
 -define(Actions, #{
     help => ["h", "help"],
+    config => ["c", "config"],
     api => ["a", "api"],
     example => ["e", "example"],
     exit => ["q", "quit", "exit"]
