@@ -2,6 +2,7 @@
 -export([main/1]).
 
 -include("ghc_bome.hrl").
+-include_lib("ghc_bome_rest/include/ghc_bome_rest.hrl").
 
 main(_) ->
     {ok, Config} = load_config(),
@@ -26,8 +27,8 @@ console_loop() ->
     end,
     case Action of
         {action, help} -> io:format(?Help), console_loop();
-        {action, api} -> io:format(?Api), console_loop();
-        {action, example} -> io:format(?Example), console_loop();
+        {action, api} -> io:format(?GhcBomeApiUsage), console_loop();
+        {action, example} -> show_example(), console_loop();
         {action, exit} -> console_exit();
         false -> console_loop();
         eof -> eof
@@ -71,3 +72,9 @@ apply_config(Config) ->
             application:set_env(App, Par, Val, [{persistent, true}])
         end, AppConfig)
     end, Config).
+
+show_example() ->
+    {ok, Port} = application:get_env(ghc_bome_rest, port),
+    io:format(lists:flatten(string:replace(
+        ?Example, "$port", integer_to_list(Port), all
+    ))).

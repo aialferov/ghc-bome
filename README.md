@@ -55,16 +55,16 @@ $ curl -XPATCH localhost:8080/v1/users/john -d'{"height":"180cm"}'
 
 Read:
 ```
-$ curl localhost:8080/v1/john
+$ curl localhost:8080/v1/users/john
 {"eyes":"blue","height":"180cm","weight":"70kg"}
 
-$ curl localhost:8080/v1/john?filter=height,weight
+$ curl localhost:8080/v1/users/john?filter=height,weight
 {"height":"180cm","weight":"70kg"}
 ```
 
 Delete:
 ```
-$ curl -XDELETE localhost:8080/v1/john \
+$ curl -XDELETE localhost:8080/v1/users/john \
 > -d'["height","weight"]'
 ```
 
