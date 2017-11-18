@@ -87,15 +87,14 @@ be run immediately:
 $ _build/default/bin/ghc-bome
 ```
 
-Also it could be shipped into an any machine with Erlang installed and run
-there.
+Also it could be shipped into any machine with Erlang installed and run there.
 
 There are more "make" targets provided for convenience:
 
 ```
-$ make run       # build and run built service executable
-$ make install   # install service executable into the system
-$ make uninstall # uninstall service executable
+$ make run       # build and run built service
+$ make install   # install service into the system
+$ make uninstall # uninstall service
 ```
 
 ### Docker image
