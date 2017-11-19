@@ -10,24 +10,14 @@ PREFIX = usr/local
 
 BIN_DIR = bin
 BIN_PATH = $(DEST_DIR)/$(PREFIX)/$(BIN_DIR)
-BIN_PATH_IN := $(shell $(REBAR) path --bin)
+BIN_PATH_IN = $(shell $(REBAR) path --bin)
 
 BUILD_DIR = _build
-BUILD_DIR_IMAGE = _build/image
+BUILD_DIR_IMAGE = $(BUILD_DIR)/image
 
 all:
 	$(REBAR) compile
 	$(REBAR) unlock
-
-check:
-	$(REBAR) eunit
-
-clean:
-	$(REBAR) clean -a
-	$(REBAR) unlock
-
-distclean: clean
-	rm -rf $(BUILD_DIR)
 
 shell:
 	$(REBAR) shell
@@ -44,10 +34,16 @@ uninstall:
 	rm -f $(BIN_PATH)/$(PROJECT)
 	rmdir -p $(BIN_PATH) 2> /dev/null || true
 
+clean:
+	$(REBAR) clean -a
+	$(REBAR) unlock
+
+distclean: clean
+	rm -rf $(BUILD_DIR)
+
 docker-build: all
-	mkdir -p $(BUILD_DIR_IMAGE)
-	install -p Dockerfile $(BUILD_DIR_IMAGE)
 	$(MAKE) install DEST_DIR=$(BUILD_DIR_IMAGE) PREFIX=
+	install -p -m 644 Dockerfile $(BUILD_DIR_IMAGE)
 	docker build $(BUILD_DIR_IMAGE) -t $(USER)/$(PROJECT):$(VERSION)
 
 docker-push: docker-build
