@@ -1,17 +1,19 @@
 USER = aialferov
 PROJECT = ghc-bome
 VERSION = latest
+
 PORT = 8080
 
 REBAR = ./rebar3
 
 PREFIX = usr/local
 
-BINDIR = bin
-BINPATH = $(DESTDIR)/$(PREFIX)/$(BINDIR)
-BINPATHIN := $(shell $(REBAR) path --bin)
+BIN_DIR = bin
+BIN_PATH = $(DEST_DIR)/$(PREFIX)/$(BIN_DIR)
+BIN_PATH_IN := $(shell $(REBAR) path --bin)
 
-BUILDDIR = _build
+BUILD_DIR = _build
+BUILD_DIR_IMAGE = _build/image
 
 all:
 	$(REBAR) compile
@@ -25,31 +27,28 @@ clean:
 	$(REBAR) unlock
 
 distclean: clean
-	rm -rf $(BUILDDIR)
+	rm -rf $(BUILD_DIR)
 
 shell:
 	$(REBAR) shell
 	$(REBAR) unlock
 
 run: all
-	$(BINPATHIN)/$(PROJECT)
+	$(BIN_PATH_IN)/$(PROJECT)
 
 install:
-	mkdir -p $(BINPATH)
-	install -p $(BINPATHIN)/$(PROJECT) $(BINPATH)
+	mkdir -p $(BIN_PATH)
+	install -p $(BIN_PATH_IN)/$(PROJECT) $(BIN_PATH)
 
 uninstall:
-	rm -f $(BINPATH)/$(PROJECT)
-	rmdir -p $(BINPATH) 2> /dev/null || true
+	rm -f $(BIN_PATH)/$(PROJECT)
+	rmdir -p $(BIN_PATH) 2> /dev/null || true
 
 docker-build: all
-	mkdir -p _buildimage
-	install -p Dockerfile _buildimage
-	$(MAKE) install DESTDIR=_buildimage PREFIX=
-	docker build _buildimage -t $(USER)/$(PROJECT):$(VERSION)
-	$(MAKE) uninstall DESTDIR=_buildimage PREFIX=
-	rm -f _buildimage/Dockerfile
-	rmdir _buildimage
+	mkdir -p $(BUILD_DIR_IMAGE)
+	install -p Dockerfile $(BUILD_DIR_IMAGE)
+	$(MAKE) install DEST_DIR=$(BUILD_DIR_IMAGE) PREFIX=
+	docker build $(BUILD_DIR_IMAGE) -t $(USER)/$(PROJECT):$(VERSION)
 
 docker-clean:
 	docker images -qf dangling=true | xargs docker rmi
