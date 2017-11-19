@@ -50,9 +50,6 @@ docker-build: all
 	$(MAKE) install DEST_DIR=$(BUILD_DIR_IMAGE) PREFIX=
 	docker build $(BUILD_DIR_IMAGE) -t $(USER)/$(PROJECT):$(VERSION)
 
-docker-clean:
-	docker images -qf dangling=true | xargs docker rmi
-
 docker-push: docker-build
 	docker push $(USER)/$(PROJECT):$(VERSION)
 
@@ -66,3 +63,6 @@ docker-start: docker-build
 
 docker-stop:
 	docker stop $(PROJECT) -t0
+
+docker-clean:
+	docker images -qf dangling=true | xargs docker rmi
