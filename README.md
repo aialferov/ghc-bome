@@ -13,7 +13,7 @@ You can use Docker to run the service straight away without any other dependency
 needed:
 
 ```
-$ docker run --rm -it -p 8080:8080 aialferov/ghc-bome
+$ docker run --name ghc-bome --rm -it -p 8080:8080 aialferov/ghc-bome
 ```
 
 If this not a first time when you run the service this way, you might need to
