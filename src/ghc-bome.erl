@@ -1,7 +1,7 @@
--module(ghc_bome).
+-module('ghc-bome').
 -export([main/1]).
 
--include("ghc_bome.hrl").
+-include("ghc-bome.hrl").
 -include_lib("ghc_bome_rest/include/ghc_bome_rest.hrl").
 
 -define(AppRest, ghc_bome_rest).
