@@ -8,6 +8,7 @@
 -define(Config,
     "Port: ~b~n"
     "Database file: ~s~n"
+    "Log file: ~s~n"
     "Database backend: ~p~n"
     "Database save on disk interval: ~b ms.~n"
 ).

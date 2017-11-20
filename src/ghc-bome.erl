@@ -80,10 +80,11 @@ apply_config(Config) ->
 show_config() ->
     {ok, Port} = application:get_env(?AppRest, port),
     {ok, DbBackend} = application:get_env(?AppRest, db_module),
+    {ok, LogFile} = application:get_env(?AppRest, log_file),
     {ok, DbFile} = application:get_env(?AppDb, file_path),
     {ok, DbSaveInterval} = application:get_env(?AppDb, save_interval),
 
-    io:format(?Config, [Port, DbFile, DbBackend, DbSaveInterval]).
+    io:format(?Config, [Port, DbFile, LogFile, DbBackend, DbSaveInterval]).
 
 show_example() ->
     {ok, Port} = application:get_env(ghc_bome_rest, port),
