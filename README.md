@@ -29,6 +29,13 @@ After you ran the service you get into the service console. There you can
 run commands to get some information about the service, for example about
 API it provides or the API usage example.
 
+To see the service log output you can print out the log file from the running
+container:
+
+```
+$ docker exec ghc-bome tail -f /tmp/ghc-bome.log
+```
+
 ### API
 
 Please refer the "API" section of
@@ -108,6 +115,7 @@ $ make docker-push  # push image (you need to be logged in, see "docker login")
 $ make docker-run   # run container with console attached
 $ make docker-start # run container in background
 $ make docker-stop  # stop container
+$ make docker-logs  # show logs in the running container
 $ make docker-clean # remove dangling (<none>:<none>) images
 ```
 

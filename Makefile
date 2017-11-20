@@ -60,5 +60,8 @@ docker-start: docker-build
 docker-stop:
 	docker stop $(PROJECT) -t0
 
+docker-logs:
+	docker exec $(PROJECT) tail -f /tmp/$(PROJECT).log
+
 docker-clean:
 	docker images -qf dangling=true | xargs docker rmi
