@@ -23,7 +23,7 @@ shell:
 	$(REBAR) shell
 	$(REBAR) unlock
 
-run: all
+run:
 	$(BIN_PATH_IN)/$(PROJECT)
 
 install:
@@ -46,14 +46,14 @@ docker-build: all
 	install -p -m 644 Dockerfile $(BUILD_DIR_IMAGE)
 	docker build $(BUILD_DIR_IMAGE) -t $(USER)/$(PROJECT):$(VERSION)
 
-docker-push: docker-build
+docker-push:
 	docker push $(USER)/$(PROJECT):$(VERSION)
 
-docker-run: docker-build
+docker-run:
 	docker run --name $(PROJECT) --rm -it -p $(PORT):$(PORT) \
 		$(USER)/$(PROJECT):$(VERSION)
 
-docker-start: docker-build
+docker-start:
 	docker run --name $(PROJECT) --rm -d -p $(PORT):$(PORT) \
 		$(USER)/$(PROJECT):$(VERSION)
 
