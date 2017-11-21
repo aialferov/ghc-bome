@@ -87,21 +87,25 @@ $ git clone git://github.com/aialferov/ghc-bome && cd ghc-bome
 $ make
 ```
 
-Once the executable is built it is located in "_build/default/bin" and could
-be run immediately:
+Once the executable is built it is located in "_build/default/bin/ghc-bome" and
+could be run immediately by executing the binary itself or using a make target:
 
 ```
-$ _build/default/bin/ghc-bome
+$ make run
 ```
 
 Also it could be shipped into any machine with Erlang installed and run there.
-
-There are more "make" targets provided for convenience:
+To install (or uninstall) into the current system:
 
 ```
-$ make run       # build and run built service
-$ make install   # install service into the system
-$ make uninstall # uninstall service
+$ make install
+$ make uninstall
+```
+
+Once installed the usage is the following:
+
+```
+$ ghc-bome [--port=<port>] [--db-file=<path>] [--log-file=path]
 ```
 
 ### Docker image

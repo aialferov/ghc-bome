@@ -24,7 +24,7 @@ shell:
 	$(REBAR) unlock
 
 run:
-	$(BIN_PATH_IN)/$(PROJECT)
+	$(BIN_PATH_IN)/$(PROJECT) --port=$(PORT)
 
 install:
 	mkdir -p $(BIN_PATH)
@@ -51,11 +51,11 @@ docker-push:
 
 docker-run:
 	docker run --name $(PROJECT) --rm -it -p $(PORT):$(PORT) \
-		$(USER)/$(PROJECT):$(VERSION)
+		$(USER)/$(PROJECT):$(VERSION) $(PROJECT) --port=$(PORT)
 
 docker-start:
 	docker run --name $(PROJECT) --rm -d -p $(PORT):$(PORT) \
-		$(USER)/$(PROJECT):$(VERSION)
+		$(USER)/$(PROJECT):$(VERSION) $(PROJECT) --port=$(PORT)
 
 docker-stop:
 	docker stop $(PROJECT) -t0

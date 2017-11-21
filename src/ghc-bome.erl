@@ -7,9 +7,15 @@
 -define(AppRest, ghc_bome_rest).
 -define(AppDb, ghc_bome_db).
 
-main(_) ->
+-define(ArgsMap, #{
+    {?AppRest, port} => port,
+    {?AppDb, file_path} => db_file,
+    {?AppRest, log_file} => log_file
+}).
+
+main(Args) ->
     {ok, Config} = load_config(),
-    apply_config(Config),
+    set_app_env(read_args(Args), Config),
 
     application:ensure_all_started(?MODULE),
     case console() of
@@ -70,10 +76,24 @@ load_config() ->
     {ok, Tokens, _} = erl_scan:string(binary_to_list(ConfigBinary)),
     erl_parse:parse_term(Tokens).
 
-apply_config(Config) ->
+read_args(Args) ->
+    lists:foldl(fun(Arg, ReadArgs) ->
+        case string:split(Arg, "=") of
+            ["--port", Value] -> maps:put(port, list_to_integer(Value), ReadArgs);
+            ["--db-file", Value] -> maps:put(db_file, Value, ReadArgs);
+            ["--log-file", Value] -> maps:put(log_file, Value, ReadArgs);
+            _Other -> ReadArgs
+        end
+    end, #{}, Args).
+
+set_app_env(Args, Config) ->
     lists:foreach(fun({App, AppConfig}) ->
         lists:foreach(fun({Par, Val}) ->
-            application:set_env(App, Par, Val, [{persistent, true}])
+            FinalVal = case maps:find({App, Par}, ?ArgsMap) of
+                {ok, Arg} -> maps:get(Arg, Args, Val);
+                error -> Val
+            end,
+            application:set_env(App, Par, FinalVal, [{persistent, true}])
         end, AppConfig)
     end, Config).
 
