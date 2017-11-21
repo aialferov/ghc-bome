@@ -1,5 +1,5 @@
 FROM aialferov/alpinerl
 
-ADD ./bin/ghc-bome /bin/
+ADD bin /bin
 
 CMD /bin/ghc-bome
