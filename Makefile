@@ -54,11 +54,14 @@ docker-run:
 		$(USER)/$(PROJECT):$(VERSION) $(PROJECT) --port=$(PORT)
 
 docker-start:
-	docker run --name $(PROJECT) --rm -d -p $(PORT):$(PORT) \
+	docker run --name $(PROJECT) --rm -itd -p $(PORT):$(PORT) \
 		$(USER)/$(PROJECT):$(VERSION) $(PROJECT) --port=$(PORT)
 
 docker-stop:
 	docker stop $(PROJECT) -t0
+
+docker-attach:
+	docker attach $(PROJECT)
 
 docker-logs:
 	docker exec $(PROJECT) tail -f /tmp/$(PROJECT).log

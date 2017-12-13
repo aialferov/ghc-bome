@@ -114,13 +114,14 @@ Makefile also provides targets to build, push and run service based docker
 image. 
 
 ```
-$ make docker-build # build image
-$ make docker-push  # push image (you need to be logged in, see "docker login")
-$ make docker-run   # run container with console attached
-$ make docker-start # run container in background
-$ make docker-stop  # stop container
-$ make docker-logs  # show logs in the running container
-$ make docker-clean # remove dangling (<none>:<none>) images
+$ make docker-build  # build image
+$ make docker-push   # push image (you need to be logged in, see "docker login")
+$ make docker-run    # run container with console attached
+$ make docker-start  # run container in background
+$ make docker-stop   # stop container
+$ make docker-attach # attach to a container running in background
+$ make docker-logs   # show logs in the running container
+$ make docker-clean  # remove dangling (<none>:<none>) images
 ```
 
 ## Tests
