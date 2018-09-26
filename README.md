@@ -44,23 +44,27 @@ Please refer the "API" section of
 ### API usage example
 
 Create:
+
 ```
 $ curl -XPUT localhost:8080/v1/users/john \
 > -d'{"weight":"60kg","height":"170cm","eyes":"blue"}'
 ```
 
 Overwrite:
+
 ```
 $ curl -XPUT localhost:8080/v1/users/john \
 > -d'{"weight":"70kg","height":"170cm","eyes":"blue"}'
 ```
 
 Update:
+
 ```
 $ curl -XPATCH localhost:8080/v1/users/john -d'{"height":"180cm"}'
 ```
 
 Read:
+
 ```
 $ curl localhost:8080/v1/users/john
 {"eyes":"blue","height":"180cm","weight":"70kg"}
@@ -70,6 +74,7 @@ $ curl localhost:8080/v1/users/john?filter=height,weight
 ```
 
 Delete:
+
 ```
 $ curl -XDELETE localhost:8080/v1/users/john \
 > -d'["height","weight"]'

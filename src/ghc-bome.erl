@@ -18,16 +18,14 @@ main(Args) ->
     set_app_env(read_args(Args), Config),
 
     application:ensure_all_started(?MODULE),
-    case console() of
-        ok -> ok;
-        eof -> receive ok -> ok end
-    end.
+    cpf_node:start(?MODULE),
+    console(),
+    cpf_node:stop().
 
 console() ->
     io:format(?Greeting),
-    Console = console_loop(),
-    io:format(?Farewell),
-    Console.
+    console_loop(),
+    io:format(?Farewell).
 
 console_loop() ->
     Action = case read_input(?Prompt) of

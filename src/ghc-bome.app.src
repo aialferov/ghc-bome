@@ -1,7 +1,6 @@
 {application, 'ghc-bome', [
     {description, "GHC Bome service"},
-    {id, "ghc-bome"},
-    {vsn, "0.1.0"},
+    {vsn, "1.1.0"},
     {modules, []},
-    {applications, [kernel, stdlib, ghc_bome_db, ghc_bome_rest]}
+    {applications, [kernel, stdlib, cpflib, ghc_bome_db, ghc_bome_rest]}
 ]}.
